@@ -1,0 +1,35 @@
+1. effective and optimized state management: 
+    > the state should be synchronized with the backend
+    > brute force approach - everytime you make update to the backend, re-fetch the state
+    > optimized approach - create reducers to reflect the same changes on the frontend, rollback if there is an issue while updating the backed
+
+2. state propagation:
+    > ensuring that the updates to the state propagate everywhere
+    > two components can refer to the same problem
+    > but using a local state variable to determine whether it will be marked for revision
+    > changing this won't reflect on the other components referring to the same problem
+    > fix: use the prop passed down from the parent to render ( which reflects the global state )
+
+3. writing the extension
+    > totally new territory for me
+    > no good tutorials available
+    > initial approach: api calls directly to appwrite from my extension
+                        > problem: can't use node_modules in extension
+                        > solution: bundling
+                                  > options: extensions-cli (did not work), vite (did not work), webpack with custom configuration (found on some random website)
+                        > problem: can't make api calls from extension to appwrite (appwrite does not allow)
+                        > solution: set up a proxy server
+                                    > will make api calls to the proxy server, which will do appwrite calls on behalf of the extension (acts like a middleman)
+                        > problem: setting up communication between popup.js and content.js -> could not synchronize the message passing initially (bad code)
+                        > solution: fix code structure
+                        
+                        > problem: extracting data from the problem page using content.js. leetcode now probably uses react + tailwind due to which div's don't have special class names. need to extract only the elements that contain problem name, problem tags from the page. did so with the help of href property (both are anchor tags, with unique href). problem difficulty is a div which contains a unique class text-difficulty
+
+                        > example: problem name - palindrome number
+                                   get problem slug - palindrome-number from the url
+                                   get the relevant anchor tags
+                        
+                         
+
+
+                        
