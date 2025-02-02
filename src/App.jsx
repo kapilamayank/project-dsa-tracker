@@ -1,9 +1,5 @@
-import Problem from "./components/Problem"
-import ProblemList from "./components/ProblemList"
 import Sidebar from "./components/Sidebar"
 import './App.css';
-import CategoryList from "./components/CategoryList";
-import RevisionList from "./components/RevisionList";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -14,6 +10,7 @@ import AddProblemForm from "./components/AddProblemForm";
 import crudService from "./appwrite/crudService";
 import { setProblems } from "./store/problemsSlice";
 import ImportJSONForm from "./components/ImportJSONForm";
+import AuthLayout from "./components/AuthLayout";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,10 +36,11 @@ function App() {
           // console.log(problemList);
           
           dispatch(setProblems({ problemList, problemCount: problemList.length }));
+          dispatch(setLoading(false));
         }
         else dispatch(logout());
 
-        dispatch(setLoading(false));
+        // dispatch(setLoading(false));
     })();
   }, [authStatus]);
 
@@ -55,8 +53,10 @@ function App() {
         </div>
         <div className='col-span-4 pt-3 overflow-y-auto'>
           { (loading) ? null : <div className="w-[80%] justify-self-center border-2 border-black rounded-lg mt-2 mb-2">
-            <AddProblemForm />
-            <ImportJSONForm />
+            <AuthLayout>
+              <AddProblemForm />
+              <ImportJSONForm />
+            </AuthLayout>
           </div> }
           <Outlet />
         </div>
